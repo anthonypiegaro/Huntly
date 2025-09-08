@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { Button } from "@/components/ui/button";
 
 export function Pricing() {
@@ -12,7 +14,9 @@ export function Pricing() {
           $0/month
         </h3>
         <p className="font-medium text-muted-foreground mb-4">You shouldn&apos;t have to pay for trying to find a job, so don&apos;t.</p>
-        <Button className="mb-4 font-bold w-full py-5">Start Hunting Your Next Job</Button>
+        <Button className="mb-4 font-bold w-full py-5" asChild>
+          <Link href="/auth">Start Hunting Your Next Job</Link>
+        </Button>
         <h3 className="text-muted-foreground mb-2 font-medium">Comes with:</h3>
         <ul className="text-muted-foreground font-medium">
           <li className="list-disc list-inside">Unlimited Applications</li>

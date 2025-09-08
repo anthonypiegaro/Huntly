@@ -1,8 +1,7 @@
 import { Origami } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-
 import { cn } from "@/lib/utils"
+import { SignInButton } from "./sign-in-button/sign-in-button"
 
 export function NavBar({
   className
@@ -31,9 +30,7 @@ export function NavBar({
           <a href="#faq">FAQ</a>
         </li>
       </ul>
-      <Button className="max-sm:text-base ">
-        Sign In
-      </Button> {/* this will be a sign in or a dashboard button depending on the auth status */}
+      <SignInButton />
     </nav>
   )
 }

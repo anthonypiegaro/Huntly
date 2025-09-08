@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Bot, EllipsisVertical, File, Layers, Origami, PanelLeftIcon } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -31,7 +32,9 @@ export function Hero() {
           <p className="2xl:text-lg text-muted-foreground font-medium">Most job trackers are slow, messy, and lack automation. Huntly is fast, organized, and smart. Make the switch.</p>
         </div>
         <div className="flex gap-x-4">
-          <Button>Get Started</Button>
+          <Button asChild>
+            <Link href="/auth">Get Started</Link>
+          </Button>
           <Button variant="secondary">Watch Demo</Button>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { Button } from "@/components/ui/button"
 
 export function CTA() {
@@ -13,7 +15,9 @@ export function CTA() {
           </p>
         </div>
         <div className="flex sm:justify-center sm:items-center">
-          <Button>Try Huntly Now</Button>
+          <Button asChild>
+            <Link href="/auth">Try Huntly Now</Link>
+          </Button>
         </div>
       </div>
     </section>
