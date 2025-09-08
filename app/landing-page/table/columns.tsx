@@ -16,10 +16,10 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 export const columns: ColumnDef<LandingPageApplication>[] = [
   {
     id: "select",
-    header: ({ table }) => (
+    header: () => (
       <Checkbox />
     ),
-    cell: ({ row }) => (
+    cell: () => (
       <Checkbox />
     ),
     enableSorting: false,

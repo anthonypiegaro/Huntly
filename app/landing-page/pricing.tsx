@@ -11,7 +11,7 @@ export function Pricing() {
         <h3 className="text-center text-3xl font-medium mb-2">
           $0/month
         </h3>
-        <p className="font-medium text-muted-foreground mb-4">You shouldn't have to pay for trying to find a job, so don't.</p>
+        <p className="font-medium text-muted-foreground mb-4">You shouldn&apos;t have to pay for trying to find a job, so don&apos;t.</p>
         <Button className="mb-4 font-bold w-full py-5">Start Hunting Your Next Job</Button>
         <h3 className="text-muted-foreground mb-2 font-medium">Comes with:</h3>
         <ul className="text-muted-foreground font-medium">
