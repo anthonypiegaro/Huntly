@@ -6,6 +6,7 @@ import { Bot, File, Layers, Origami } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -20,6 +21,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { Profile } from "./profile"
 
 
 const items = [
@@ -77,6 +79,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Profile />
+      </SidebarFooter>
     </Sidebar>
   )
 }
