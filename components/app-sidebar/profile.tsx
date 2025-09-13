@@ -1,16 +1,18 @@
 "use client"
 
-import { EllipsisVertical } from "lucide-react"
+import Link from "next/link"
+import { CircleUserRound, EllipsisVertical } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 import { useSession } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
+import { LogoutButton } from "./logout-button"
 
 
 export function Profile() {
-  const { state, openMobile } = useSidebar()
+  const { state, isMobile, openMobile } = useSidebar()
   const { data } = useSession()
 
   return (
@@ -28,6 +30,16 @@ export function Profile() {
             </div>
             <EllipsisVertical className={cn("h-5 w-5 shrink-0 ml-auto text-muted-foreground", state === "collapsed" && !openMobile && "hidden")}/>
           </DropdownMenuTrigger>
+          <DropdownMenuContent side={isMobile ? "top" : "right"} className={cn(!isMobile && "-translate-y-8")}>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/account">
+                <CircleUserRound />
+                Account
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <LogoutButton />
+          </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>

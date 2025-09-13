@@ -47,9 +47,9 @@ export function AppSidebar() {
   const { open } = useSidebar()
 
   return (
-    <Sidebar variant="inset" collapsible="icon" className="text-[oklch(0.900_0_0)]">
+    <Sidebar variant="inset" collapsible="icon" className="">
       <SidebarHeader>
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 text-sidebar-foreground">
           <Origami className="h-7 w-7 shrink-0" />
           <h2 className={cn("text-2xl font-semibold", !open && "hidden")}>Huntly</h2>
         </div>
