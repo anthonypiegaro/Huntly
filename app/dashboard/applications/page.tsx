@@ -1,5 +1,5 @@
-export default function Applications() {
-  return (
-    <h1 className="text-4xl font-semibold">Applications</h1>
-  )
+import Applications from "./applications";
+
+export default function Page() {
+  return <Applications />
 }
