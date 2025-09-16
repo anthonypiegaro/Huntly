@@ -1,5 +1,5 @@
-export default function Resumes() {
-  return (
-    <h1 className="text-3xl font-semibold">Resumes</h1>
-  )
+import { Resumes } from "./resumes";
+
+export default function Page() {
+  return <Resumes />
 }

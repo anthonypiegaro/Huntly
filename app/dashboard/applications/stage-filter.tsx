@@ -19,6 +19,7 @@ export function StageFilter({
     <div className="flex border w-fit p-1 mx-auto rounded-xl bg-[oklch(0.750_0_0)] dark:bg-card cursor-pointer dark:text-primary">
       {stages.map(stage => (
         <div
+          key={stage}
           className={cn(
             "flex justify-center w-23 py-1 font-medium text-sm transition-all rounded-lg hover:bg-[oklch(0.350_0_0)]",
             selectedStage === stage ? "bg-[oklch(0.225_0_0)] text-[oklch(0.900_0_0)] dark:bg-[oklch(0.450_0_0)]" : "hover:text-[oklch(0.900_0_0)] dark:hover:bg-[oklch(0.350_0_0)]"
