@@ -1,7 +1,9 @@
 import { cookies } from "next/headers"
 
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar/app-sidebar"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { Toaster } from "@/components/ui/sonner"
+
 import { LayoutHeader } from "./layout-header"
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -14,6 +16,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <SidebarInset>
         <LayoutHeader />
         {children}
+        <Toaster />
       </SidebarInset>
     </SidebarProvider>
   )

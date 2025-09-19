@@ -18,7 +18,7 @@ export function LayoutHeader() {
   const page = capitalize(paths.length > 1 ? paths[2] : "")
 
   return (
-    <div className="flex p-2 items-center gap-x-4 border-b-2 border-sidebar text-[oklch(0.900_0_0)]">
+    <div className="flex p-2 items-center gap-x-4 border-b-2 border-sidebar dark:text-[oklch(0.900_0_0)]">
       <SidebarTrigger />
       <div className="h-full w-[2px] rounded-md bg-sidebar"/>
       <h2 className="text-lg font-medium">

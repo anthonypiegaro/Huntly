@@ -1,5 +1,8 @@
+import { getResumes } from "./get-resumes";
 import { Resumes } from "./resumes";
 
-export default function Page() {
-  return <Resumes />
+export default async function Page() {
+  const resumes = await getResumes()
+
+  return <Resumes initResumes={resumes} />
 }
