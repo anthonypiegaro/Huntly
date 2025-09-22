@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, uuid, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, uuid, integer, unique } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -71,7 +71,9 @@ export const resume = pgTable("resume", {
   resumeContent: text("resume_content"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date())
-})
+}, (t) => [
+  unique().on(t.userId, t.name)
+])
 
 export const fit = pgTable("fit", {
   id: uuid("id").primaryKey().defaultRandom(),
