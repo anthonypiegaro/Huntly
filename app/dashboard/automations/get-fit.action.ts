@@ -5,7 +5,7 @@ import { openai } from "@ai-sdk/openai"
 import { z } from "zod"
 
 const fitSchema = z.object({
-  score: z.number().min(1).max(10),
+  score: z.int().min(1).max(10),
   goodPoints: z.array(z.string()),
   poorPoints: z.array(z.string())
 })
@@ -19,9 +19,11 @@ const systemPrompt = `
     - 1 = completely unfit
     - 10 = excellent fit, strong hire
   Also include:
-    - goodPoints: Array of reasons where the resume is strong 
+    - goodPoints: Array of reasons where the resume is strong for
+      this job
       (skills, experience, accomplishments that line up well).
-    - poorPoints: Array of reasons where the resume is weak 
+    - poorPoints: Array of reasons where the resume is weak for
+      this job
       (missing skills, irrelevant experience, gaps).
   Keep explanations specific and concise.
 `

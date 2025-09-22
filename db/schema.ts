@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, uuid, integer } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -73,10 +73,25 @@ export const resume = pgTable("resume", {
   updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date())
 })
 
+export const fit = pgTable("fit", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  resumeId: uuid("resume_id").notNull().references(() => resume.id, { onDelete: "cascade" }),
+  role: text("role").notNull(),
+  company: text("company").notNull(),
+  jobDescription: text("job_description").notNull(),
+  fitScore: integer("fit_score").notNull(),
+  goodPoints: text("good_points").array().notNull(),
+  poorPoints: text("poor_points").array().notNull(),
+  tracked: boolean("tracked").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow()
+})
+
 export const schema = {
   user,
   session,
   account,
   verification,
   // Tables above this comment were built by 'Better Auth' for their service
+  resume
 }

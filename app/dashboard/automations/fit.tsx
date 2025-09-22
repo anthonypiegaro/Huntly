@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { FitSchema, GenerateFitProps, getFit } from "./get-fit.action"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
+import { URL } from "node:url"
 
 export function Fit() {
   const [fit, setFit] = useState<FitSchema| null>(null)
@@ -17,9 +19,13 @@ export function Fit() {
   const generateFit = async (values: GenerateFitProps) => {
     setGeneratingFit(true)
 
-    const data = await getFit(values)
-
-    setFit(data)
+    await getFit(values)
+      .then(data => (
+        setFit(data)
+      ))
+      .catch(e => {
+        toast.error("Error", { description: e.message })
+      })
 
     setGeneratingFit(false)
   }
@@ -76,23 +82,23 @@ function FitScore({
       <h2 className="text-xl font-medium">Score: {score} out of 10</h2>
       <div>
         <h3>Good:</h3>
-        <li>
+        <ul>
           {goodPoints.map((point, i) => (
-            <ul key={i}>
+            <li key={i}>
               <p>{point}</p>
-            </ul>
+            </li>
           ))}
-        </li>
+        </ul>
       </div>
       <div>
         <h3>Poor:</h3>
-        <li>
+        <ul>
           {poorPoints.map((point, i) => (
-            <ul key={i}>
+            <li key={i}>
               <p>{point}</p>
-            </ul>
+            </li>
           ))}
-        </li>
+        </ul>
       </div>
     </>
   )
