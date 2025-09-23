@@ -20,7 +20,7 @@ export function JobDescriptionDialog({
     <Dialog open={open} onOpenChange={onOpenChange} >
       <DialogContent className="flex flex-col sm:max-w-4xl max-h-[90%]">
         <DialogHeader>
-          <DialogTitle>Job Description</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold">Job Description</DialogTitle>
         </DialogHeader>
         <p className="[scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1 p-2 bg-card rounded-md overflow-y-scroll whitespace-pre-wrap break-words">{jobDescription}</p>
       </DialogContent>

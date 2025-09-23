@@ -36,6 +36,13 @@ import { CreateFitDialog } from "./create-fit-dialog"
 import { Resume } from "./page"
 import { Fit } from "./columns"
 import { JobDescriptionDialog } from "./job-description-dialog"
+import { ScoreDetailsDialog } from "./score-details-dialog"
+
+export type ScoreDetails = { 
+  score: number 
+  goodPoints: string[]
+  poorPoints: string[]
+}
 
 function useSkipper() {
   const shouldSkipRef = useRef(true)
@@ -68,6 +75,7 @@ export function DataTable<TValue>({
   const [rowSelection, setRowSelection] = useState({})
 
   const [JobDescriptionDialogJobDescription, setJobDescriptionDialogJobDescription] = useState<string | null>(null)
+  const [scoreDetailsDialogDetails, setScoreDetailsDialogDetails] = useState<ScoreDetails | null>(null)
 
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
 
@@ -93,6 +101,9 @@ export function DataTable<TValue>({
     meta: {
       openJobDescription: (jobDescription: string) => {
         setJobDescriptionDialogJobDescription(jobDescription)
+      },
+      openScoreDetails: (details: ScoreDetails) => {
+        setScoreDetailsDialogDetails(details)
       }
     }
   })
@@ -107,8 +118,19 @@ export function DataTable<TValue>({
     }
   }
 
+  const handleScoreDetailsDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setScoreDetailsDialogDetails(null)
+    }
+  }
+
   return (
     <>
+      <ScoreDetailsDialog 
+        open={scoreDetailsDialogDetails ? true : false}
+        onOpenChange={handleScoreDetailsDialogOpenChange}
+        details={scoreDetailsDialogDetails ? scoreDetailsDialogDetails : { score: 0, goodPoints: [], poorPoints: [] }}
+      />
       <JobDescriptionDialog 
         open={JobDescriptionDialogJobDescription ? true : false}
         onOpenChange={handleJobDescriptionDialogOpenChange}

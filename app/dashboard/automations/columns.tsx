@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ScoreDetails } from "./data-table"
 
 export type Fit = {
   id: string
@@ -93,6 +94,15 @@ export const columns: ColumnDef<Fit>[] = [
         (table.options.meta as { openJobDescription: (jd: string) => void })
           ?.openJobDescription(fit.jobDescription)
       }
+
+      const handleViewScoreDetailsClick = () => {
+        (table.options.meta as { openScoreDetails: (details: ScoreDetails) => void })
+          ?.openScoreDetails({
+            score: fit.score,
+            goodPoints: fit.goodPoints,
+            poorPoints: fit.poorPoints
+          })
+      }
  
       return (
         <DropdownMenu>
@@ -103,7 +113,7 @@ export const columns: ColumnDef<Fit>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View Score Details</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleViewScoreDetailsClick}>View Score Details</DropdownMenuItem>
             <DropdownMenuItem onClick={handleViewJobDescriptionClick}>View Job Description</DropdownMenuItem>
             <DropdownMenuItem>Track App</DropdownMenuItem>
             <DropdownMenuSeparator />
