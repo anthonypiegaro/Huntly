@@ -27,6 +27,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { cn } from "@/lib/utils"
 
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableViewOptions } from "./data-table-view-options"
@@ -35,6 +36,7 @@ import { Resume } from "./page"
 import { Fit } from "./columns"
 import { JobDescriptionDialog } from "./job-description-dialog"
 import { ScoreDetailsDialog } from "./score-details-dialog"
+import { BulkActionsDropdown } from "./bulk-actions-dropdown"
 
 export type ScoreDetails = { 
   score: number 
@@ -142,6 +144,13 @@ export function DataTable<TValue>({
           />
           <DataTableViewOptions table={table} />
           <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
+          <BulkActionsDropdown 
+            buttonClassName={cn(
+              "transition-all duration-300 opacity-100",
+              table.getSelectedRowModel().rows.length === 0 && "!opacity-0 !pointer-events-none"
+            )} 
+            disabled={table.getSelectedRowModel().rows.length === 0}
+          />
         </div>
         <div className="mb-4 rounded-md border-2 border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)]">
           <Table>
