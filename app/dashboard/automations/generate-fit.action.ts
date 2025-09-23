@@ -131,7 +131,10 @@ export const generateFit = async (values: GenerateFitSchema) => {
       id: values.resumeId,
       name: resumeName
     },
+    jobDescription: values.jobDescription,
     score: object.score,
+    goodPoints: object.goodPoints,
+    poorPoints: object.poorPoints,
     tracked: false,
     createdAt: data[0].createdAt
   }

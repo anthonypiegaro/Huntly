@@ -21,7 +21,10 @@ export type Fit = {
     id: string
     name: string
   }
+  jobDescription: string
   score: number
+  goodPoints: string[]
+  poorPoints: string[]
   tracked: boolean
   createdAt: Date
 }
@@ -83,8 +86,13 @@ export const columns: ColumnDef<Fit>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const fit = row.original
+
+      const handleViewJobDescriptionClick = () => {
+        (table.options.meta as { openJobDescription: (jd: string) => void })
+          ?.openJobDescription(fit.jobDescription)
+      }
  
       return (
         <DropdownMenu>
@@ -95,7 +103,8 @@ export const columns: ColumnDef<Fit>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>View Score Details</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleViewJobDescriptionClick}>View Job Description</DropdownMenuItem>
             <DropdownMenuItem>Track App</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive">Delete Fit</DropdownMenuItem>

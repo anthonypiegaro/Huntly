@@ -26,7 +26,10 @@ export const getFitData = async () => {
       company: fit.company,
       resumeId: fit.resumeId,
       resumeName: resume.name,
+      jobDescription: fit.jobDescription,
       score: fit.fitScore,
+      goodPoints: fit.goodPoints,
+      poorPoints: fit.poorPoints,
       tracked: fit.tracked,
       createdAt: fit.createdAt
     })
@@ -42,7 +45,10 @@ export const getFitData = async () => {
         id: f.resumeId,
         name: f.resumeName,
       },
+      jobDescription: f.jobDescription,
       score: f.score,
+      goodPoints: f.goodPoints,
+      poorPoints: f.poorPoints,
       tracked: f.tracked,
       createdAt: f.createdAt
   }))
