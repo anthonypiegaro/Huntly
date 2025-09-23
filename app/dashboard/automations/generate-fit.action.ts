@@ -22,7 +22,7 @@ const fitSchema = z.object({
   goodPoints: z.array(
     z.string()
       .min(5)
-      .max(200)
+      .max(500)
       .describe("Specific reasons why the resume is a strong fit. Each point should be concise but informative.")
   )
     .min(1)
@@ -31,7 +31,7 @@ const fitSchema = z.object({
   poorPoints: z.array(
     z.string()
       .min(5)
-      .max(200)
+      .max(500)
       .describe("Specific reasons why the resume is a weak fit. Focus on gaps and mismatches.")
   )
     .min(0)
