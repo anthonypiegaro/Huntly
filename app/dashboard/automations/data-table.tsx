@@ -8,7 +8,6 @@ import {
 } from "react"
 import { 
   ColumnDef, 
-  ColumnFiltersState, 
   flexRender, 
   getCoreRowModel,
   getFilteredRowModel,
@@ -20,7 +19,6 @@ import {
 } from "@tanstack/react-table"
 
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { 
   Table,
   TableBody,
@@ -70,7 +68,6 @@ export function DataTable<TValue>({
 }) {
   const [data, setData] = useState(initData)
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
@@ -87,14 +84,13 @@ export function DataTable<TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: "includesString",
     state: {
       sorting,
-      columnFilters,
       columnVisibility,
       rowSelection
     },
@@ -138,17 +134,12 @@ export function DataTable<TValue>({
       />
       <div className="w-full h-full my-10">
         <div className="mb-4 flex items-end gap-4 flex-wrap">
-          <div>
-            <Label className="mb-1">Company</Label>
-            <Input
-              placeholder="Filter company..."
-              value={(table.getColumn("company")?.getFilterValue() as string) ?? ""}
-              onChange={(event) =>
-                table.getColumn("company")?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-          </div>
+          <Input
+            value={table.getState().globalFilter}
+            onChange={e => table.setGlobalFilter(String(e.target.value))}
+            placeholder="Search..."
+            className="max-w-sm"
+          />
           <DataTableViewOptions table={table} />
           <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
         </div>
