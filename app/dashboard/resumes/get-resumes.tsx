@@ -25,7 +25,7 @@ export const getResumes = async () => {
     id: resume.id,
     name: resume.name,
     url: resume.url,
-    description: resume.description
+    description: resume.description,
   })
   .from(resume)
   .where(eq(resume.userId, userId))
