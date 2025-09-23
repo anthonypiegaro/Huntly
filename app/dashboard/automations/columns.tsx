@@ -17,7 +17,10 @@ export type Fit = {
   id: string
   role: string
   company: string
-  resume: string
+  resume: {
+    id: string
+    name: string
+  }
   score: number
   tracked: boolean
   createdAt: string
@@ -55,7 +58,7 @@ export const columns: ColumnDef<Fit>[] = [
     header: "Role"
   },
   {
-    accessorKey: "resume",
+    accessorKey: "resume.name",
     header: "Resume"
   },
   {
