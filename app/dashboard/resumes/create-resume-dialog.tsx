@@ -121,6 +121,7 @@ export function CreateResumeDialog({
                     <Textarea
                       className="w-full max-w-full min-w-0 h-50 resize-none whitespace-pre-wrap break-words"
                       {...field}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />

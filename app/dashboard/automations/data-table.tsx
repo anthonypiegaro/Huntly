@@ -1,6 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { 
+  useCallback, 
+  useEffect, 
+  useRef, 
+  useState 
+} from "react"
 import { 
   ColumnDef, 
   ColumnFiltersState, 
@@ -14,13 +19,6 @@ import {
   VisibilityState
 } from "@tanstack/react-table"
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { 
@@ -35,22 +33,45 @@ import {
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableViewOptions } from "./data-table-view-options"
 import { CreateFitDialog } from "./create-fit-dialog"
+import { Resume } from "./page"
+import { Fit } from "./columns"
 
-export function DataTable<TData, TValue>({
+function useSkipper() {
+  const shouldSkipRef = useRef(true)
+  const shouldSkip = shouldSkipRef.current
+
+  const skip = useCallback(() => {
+    shouldSkipRef.current = false
+  }, [])
+
+  useEffect(() => {
+    shouldSkipRef.current = true
+  })
+
+  return [shouldSkip, skip] as const
+}
+
+export function DataTable<TValue>({
   columns,
-  data
+  initData,
+  resumes
 }: {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<Fit, TValue>[]
+  initData: Fit[]
+  resumes: Resume[]
 }) {
+  const [data, setData] = useState(initData)
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
+
   const table = useReactTable({
     columns,
     data,
+    autoResetPageIndex,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -67,6 +88,10 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  const handleFitCreationSuccess = (fit: Fit) => {
+    setData(prev => [fit, ...prev])
+  }
+
   return (
     <div className="w-full h-full my-10">
       <div className="mb-4 flex items-end gap-4 flex-wrap">
@@ -82,7 +107,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
         <DataTableViewOptions table={table} />
-        <CreateFitDialog />
+        <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
       </div>
       <div className="mb-4 rounded-md border-2 border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)]">
         <Table>
@@ -123,7 +148,7 @@ export function DataTable<TData, TValue>({
               ))
             ): (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-2xl text-center">
                   No fit scores.
                 </TableCell>
               </TableRow>

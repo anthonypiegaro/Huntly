@@ -23,7 +23,7 @@ export type Fit = {
   }
   score: number
   tracked: boolean
-  createdAt: string
+  createdAt: Date
 }
 
 export const columns: ColumnDef<Fit>[] = [
@@ -95,8 +95,8 @@ export const columns: ColumnDef<Fit>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Track App</DropdownMenuItem>
             <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>Track App</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive">Delete Fit</DropdownMenuItem>
           </DropdownMenuContent>
