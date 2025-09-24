@@ -89,11 +89,30 @@ export const fit = pgTable("fit", {
   createdAt: timestamp("created_at").notNull().defaultNow()
 })
 
+export const application = pgTable("application", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  resumeId: uuid("resume_id").references(() => resume.id),
+  role: text("role").notNull(),
+  company: text("company").notNull(),
+  location: text("location").notNull().default(""),
+  jobDescription: text("job_description").notNull().default(""),
+  applicationUrl: text("application_url"),
+  dateAdded: timestamp("date_added").notNull().defaultNow(),
+  dateApplied: timestamp("date_applied"),
+  dateResponded: timestamp("date_responded"),
+  dateInterviewed: timestamp("date_interviewed"),
+  dateAccepted: timestamp("date_accepted"),
+  dateClosed: timestamp("date_closed")
+})
+
 export const schema = {
   user,
   session,
   account,
   verification,
   // Tables above this comment were built by 'Better Auth' for their service
-  resume
+  resume,
+  fit,
+  application
 }
