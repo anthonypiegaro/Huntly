@@ -10,13 +10,20 @@ function capitalizeFirst(word: string): string {
 
 export function StageFilter({
   selectedStage,
-  onChangeStageFilter
+  onChangeStageFilter,
+  className
 }: {
   selectedStage: Stage
   onChangeStageFilter: (value: Stage) => void
+  className?: string
 }) {
   return (
-    <div className="flex border w-fit p-1 mx-auto rounded-xl bg-[oklch(0.750_0_0)] dark:bg-card cursor-pointer dark:text-primary">
+    <div 
+      className={cn(
+        "flex border w-fit p-1 mx-auto rounded-xl bg-[oklch(0.750_0_0)] dark:bg-card cursor-pointer dark:text-primary",
+        className
+      )}
+    >
       {stages.map(stage => (
         <div
           key={stage}
