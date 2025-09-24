@@ -308,7 +308,7 @@ export const applications: Application[] = [
 
 export default function Page() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto pb-10">
       <DataTable columns={columns} initData={applications} />
     </div>
   )

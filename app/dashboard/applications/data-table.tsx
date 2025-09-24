@@ -8,9 +8,13 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  useReactTable
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+  VisibilityState
 } from "@tanstack/react-table"
 
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -19,10 +23,14 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+
+
 import { Application } from "./columns"
 import { StageFilter } from "./stage-filter"
 import { Stage } from "./applications"
-import { date } from "zod"
+import { DataTablePagination } from "./data-table-pagination"
+import { DataTableViewOptions } from "./data-table-view-options"
+import { AddApplicationDialog } from "./add-application-dialog"
 
 export function DataTable<TValue>({
   columns,
@@ -33,6 +41,7 @@ export function DataTable<TValue>({
 }) {
   const [data, setData] = useState(initData)
   const [stageFilter, setStageFilter] = useState<Stage>("all")
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const dataCleaned = useMemo(() => {
     return data.filter(row => {
@@ -70,14 +79,22 @@ export function DataTable<TValue>({
           return true
       }
     })
-  }, [date, stageFilter])
+  }, [data, stageFilter])
 
 
 
   const table = useReactTable({
     columns,
     data: dataCleaned,
-    getCoreRowModel: getCoreRowModel()
+    getRowId: row => row.id,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    globalFilterFn: "includesString",
+    state: {
+      columnVisibility
+    }
   })
 
   const handleChangeStageFilter = (stage: Stage) => {
@@ -91,6 +108,16 @@ export function DataTable<TValue>({
         onChangeStageFilter={handleChangeStageFilter}
         className="mt-10 mb-8"
       />
+      <div className="mb-4 flex items-end gap-4 flex-wrap">
+        <Input
+          value={table.getState().globalFilter}
+          onChange={e => table.setGlobalFilter(String(e.target.value))}
+          placeholder="Search..."
+          className="max-w-sm"
+        />
+        <DataTableViewOptions table={table} />
+        <AddApplicationDialog />
+      </div>
       <div className="mb-4 rounded-md border-2 border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)]">
         <Table>
           <TableHeader>
@@ -136,6 +163,7 @@ export function DataTable<TValue>({
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </>
   )
 }
