@@ -128,6 +128,13 @@ export function DataTable<TValue>({
     }
   }
 
+  const handleBulkTrackSuccess = (ids: string[]) => {
+    setData(prev => prev.map(fit => ({
+      ...fit,
+      tracked: ids.includes(fit.id) ? true : fit.tracked
+    })))
+  }
+
   return (
     <>
       <ScoreDetailsDialog 
@@ -150,7 +157,9 @@ export function DataTable<TValue>({
           />
           <DataTableViewOptions table={table} />
           <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
-          <BulkActionsDropdown 
+          <BulkActionsDropdown
+            table={table}
+            onBulkTrackSuccess={handleBulkTrackSuccess}
             buttonClassName={cn(
               "transition-all duration-300 opacity-100",
               table.getSelectedRowModel().rows.length === 0 && "!opacity-0 !pointer-events-none"
