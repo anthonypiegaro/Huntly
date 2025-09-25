@@ -1,6 +1,6 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, FilterFn } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { toast } from "sonner"
 
@@ -41,6 +41,11 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit"
 })
 
+const booleanIncludes: FilterFn<Fit> = (row, columnId, filterValue: boolean[]) => {
+  const value = row.getValue<boolean>(columnId)
+  return filterValue?.includes(value)
+}
+
 export const columns: ColumnDef<Fit>[] = [
   {
     id: "select",
@@ -66,24 +71,40 @@ export const columns: ColumnDef<Fit>[] = [
   },
   {
     accessorKey: "company",
-    header: "Company"
+    header: "Company",
+    meta: {
+      stringName: "Company"
+    }
   },
   {
     accessorKey: "role",
-    header: "Role"
+    header: "Role",
+    meta: {
+      stringName: "Role"
+    }
   },
   {
     accessorKey: "resume.name",
-    header: "Resume"
+    header: "Resume",
+    meta: {
+      stringName: "Resume"
+    }
   },
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ row }) => <div>{dateFormatter.format(row.getValue("createdAt"))}</div>
+    cell: ({ row }) => <div>{dateFormatter.format(row.getValue("createdAt"))}</div>,
+    meta: {
+      stringName: "Created At"
+    }
   },
   {
     accessorKey: "tracked",
-    header: "Tracked"
+    header: "Tracked",
+    filterFn: booleanIncludes,
+    meta: {
+      stringName: "Tracked"
+    }
   },
   {
     accessorKey: "score",
@@ -95,7 +116,10 @@ export const columns: ColumnDef<Fit>[] = [
         Score
         <ArrowUpDown />
       </Button>
-    )
+    ),
+    meta: {
+      stringName: "Score"
+    }
   },
   {
     id: "actions",

@@ -37,49 +37,79 @@ export const columns: ColumnDef<Application>[] = [
   {
     accessorKey: "role",
     header: "Role",
+    meta: {
+      stringName: "Role"
+    }
   },
   {
     accessorKey: "company",
-    header: "Company"
+    header: "Company",
+    meta: {
+      stringName: "Company"
+    }
   },
   {
     accessorKey: "location",
-    header: "Location"
+    header: "Location",
+    meta: {
+      stringName: "Location"
+    }
   },
   {
     accessorKey: "resume.name",
     header: "Resume",
-    cell: ({ row }) => <div>{row.original.resume?.name ?? "NA"}</div>
+    cell: ({ row }) => <div>{row.original.resume?.name ?? "NA"}</div>,
+    meta: {
+      stringName: "Resume"
+    }
   },
   {
     accessorKey: "dateAdded",
     header: "Added",
-    cell: ({ row }) => <div>{row.getValue("dateAdded") === null ? "NA" : dateFormatter.format(row.getValue("dateAdded"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateAdded") === null ? "NA" : dateFormatter.format(row.getValue("dateAdded"))}</div>,
+    meta: {
+      stringName: "Added"
+    }
   },
   {
     accessorKey: "dateApplied",
     header: "Applied",
-    cell: ({ row }) => <div>{row.getValue("dateApplied") === null ? "NA" : dateFormatter.format(row.getValue("dateApplied"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateApplied") === null ? "NA" : dateFormatter.format(row.getValue("dateApplied"))}</div>,
+    meta: {
+      stringName: "Applied"
+    }
   },
   {
     accessorKey: "dateResponded",
     header: "Responded",
-    cell: ({ row }) => <div>{row.getValue("dateResponded") === null ? "NA" : dateFormatter.format(row.getValue("dateResponded"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateResponded") === null ? "NA" : dateFormatter.format(row.getValue("dateResponded"))}</div>,
+    meta: {
+      stringName: "Responded"
+    }
   },
   {
     accessorKey: "dateInterviewed",
     header: "Interviewed",
-    cell: ({ row }) => <div>{row.getValue("dateInterviewed") === null ? "NA" : dateFormatter.format(row.getValue("dateInterviewed"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateInterviewed") === null ? "NA" : dateFormatter.format(row.getValue("dateInterviewed"))}</div>,
+    meta: {
+      stringName: "Interviewed"
+    }
   },
   {
     accessorKey: "dateAccepted",
     header: "Accepted",
-    cell: ({ row }) => <div>{row.getValue("dateAccepted") === null ? "NA" : dateFormatter.format(row.getValue("dateAccepted"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateAccepted") === null ? "NA" : dateFormatter.format(row.getValue("dateAccepted"))}</div>,
+    meta: {
+      stringName: "Accepted"
+    }
   },
   {
     accessorKey: "dateClosed",
     header: "Closed",
-    cell: ({ row }) => <div>{row.getValue("dateClosed") === null ? "NA" : dateFormatter.format(row.getValue("dateClosed"))}</div>
+    cell: ({ row }) => <div>{row.getValue("dateClosed") === null ? "NA" : dateFormatter.format(row.getValue("dateClosed"))}</div>,
+    meta: {
+      stringName: "Closed"
+    }
   },
   {
     id: "actions",

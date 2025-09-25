@@ -8,6 +8,7 @@ import {
 } from "react"
 import { 
   ColumnDef, 
+  ColumnFiltersState, 
   flexRender, 
   getCoreRowModel,
   getFilteredRowModel,
@@ -37,6 +38,7 @@ import { Fit } from "./columns"
 import { JobDescriptionDialog } from "./job-description-dialog"
 import { ScoreDetailsDialog } from "./score-details-dialog"
 import { BulkActionsDropdown } from "./bulk-actions-dropdown"
+import { DataTableTrackedFilter } from "./data-table-tracked-filter"
 
 export type ScoreDetails = { 
   score: number 
@@ -72,6 +74,12 @@ export function DataTable<TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    {
+      id: "tracked",
+      value: [true, false],
+    },
+  ])
 
   const [JobDescriptionDialogJobDescription, setJobDescriptionDialogJobDescription] = useState<string | null>(null)
   const [scoreDetailsDialogDetails, setScoreDetailsDialogDetails] = useState<ScoreDetails | null>(null)
@@ -87,6 +95,7 @@ export function DataTable<TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -94,7 +103,8 @@ export function DataTable<TValue>({
     state: {
       sorting,
       columnVisibility,
-      rowSelection
+      rowSelection,
+      columnFilters
     },
     meta: {
       openJobDescription: (jobDescription: string) => {
@@ -156,6 +166,7 @@ export function DataTable<TValue>({
             className="max-w-sm"
           />
           <DataTableViewOptions table={table} />
+          <DataTableTrackedFilter table={table} />
           <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
           <BulkActionsDropdown
             table={table}
