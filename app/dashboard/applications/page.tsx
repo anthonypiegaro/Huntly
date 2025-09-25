@@ -2,6 +2,12 @@ import Applications from "./applications";
 import { Application, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { getApplications } from "./get-applications";
+import { getResumes } from "./get-resumes";
+
+export type Resume = {
+  id: string
+  name: string
+}
 
 // export const applications: Application[] = [
 //   {
@@ -308,11 +314,11 @@ import { getApplications } from "./get-applications";
 // ];
 
 export default async function Page() {
-  const [applications] = await Promise.all([getApplications()])
+  const [applications, resumes] = await Promise.all([getApplications(), getResumes()])
 
   return (
     <div className="container mx-auto pb-10">
-      <DataTable columns={columns} initData={applications} />
+      <DataTable columns={columns} initData={applications} resumes={resumes}/>
     </div>
   )
 }

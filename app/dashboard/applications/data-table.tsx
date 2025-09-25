@@ -31,13 +31,16 @@ import { Stage } from "./applications"
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableViewOptions } from "./data-table-view-options"
 import { AddApplicationDialog } from "./add-application-dialog"
+import { Resume } from "./page"
 
 export function DataTable<TValue>({
   columns,
-  initData
+  initData,
+  resumes
 }: {
   columns: ColumnDef<Application, TValue>[]
-  initData: Application[]
+  initData: Application[],
+  resumes: Resume[]
 }) {
   const [data, setData] = useState(initData)
   const [stageFilter, setStageFilter] = useState<Stage>("all")
@@ -101,6 +104,10 @@ export function DataTable<TValue>({
     setStageFilter(stage)
   }
 
+  const handleAddApplicationSuccess = (app: Application) => {
+    setData(prev => [app, ...prev])
+  }
+
   return (
     <>
       <StageFilter
@@ -116,7 +123,7 @@ export function DataTable<TValue>({
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />
-        <AddApplicationDialog />
+        <AddApplicationDialog resumes={resumes} onSuccess={handleAddApplicationSuccess}/>
       </div>
       <div className="mb-4 rounded-md border-2 border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)]">
         <Table>
@@ -155,7 +162,7 @@ export function DataTable<TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-2xl text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-2xl text-center font-medium dark:font-normal">
                   No applications.
                 </TableCell>
               </TableRow>
