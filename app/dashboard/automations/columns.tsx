@@ -22,6 +22,8 @@ export type Fit = {
     id: string
     name: string
   }
+  location: string
+  applicationUrl: string | null
   jobDescription: string
   score: number
   goodPoints: string[]
@@ -29,6 +31,12 @@ export type Fit = {
   tracked: boolean
   createdAt: Date
 }
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "2-digit",
+  month: "2-digit",
+  day: "2-digit"
+})
 
 export const columns: ColumnDef<Fit>[] = [
   {
@@ -67,7 +75,8 @@ export const columns: ColumnDef<Fit>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created At"
+    header: "Created At",
+    cell: ({ row }) => <div>{dateFormatter.format(row.getValue("createdAt"))}</div>
   },
   {
     accessorKey: "tracked",

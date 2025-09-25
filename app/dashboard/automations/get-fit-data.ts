@@ -7,8 +7,10 @@ import { eq } from "drizzle-orm"
 import { db } from "@/db/db"
 import { fit, resume } from "@/db/schema"
 import { auth } from "@/lib/auth"
+import { Fit } from "./columns"
+import { Fira_Code } from "next/font/google"
 
-export const getFitData = async () => {
+export const getFitData = async (): Promise<Fit[]> => {
   const session = await auth.api.getSession({
     headers: await headers()
   })
@@ -26,6 +28,8 @@ export const getFitData = async () => {
       company: fit.company,
       resumeId: fit.resumeId,
       resumeName: resume.name,
+      location: fit.location,
+      applicationUrl: fit.applicationUrl,
       jobDescription: fit.jobDescription,
       score: fit.fitScore,
       goodPoints: fit.goodPoints,
@@ -45,6 +49,8 @@ export const getFitData = async () => {
         id: f.resumeId,
         name: f.resumeName,
       },
+      location: f.location,
+      applicationUrl: f.applicationUrl,
       jobDescription: f.jobDescription,
       score: f.score,
       goodPoints: f.goodPoints,

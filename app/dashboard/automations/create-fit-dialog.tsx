@@ -40,6 +40,8 @@ import { generateFit } from "./generate-fit.action"
 const generateFitSchema = z.object({
   role: z.string().min(1, "Role is requried.").max(150, "Role too long. Max 150 characters."),
   company: z.string().min(1, "Company is requried.").max(150, "Company too long. Max 150 characters."),
+  location: z.string(),
+  applicationUrl: z.string().max(10000, "Application url can be no longer than 10,000 characters"),
   jobDescription: z.string().min(1, "Job description required.").max(10000, "Job Description too long. Max 10,000 characters."),
   resumeId: z.string().min(1, "Resume required")
 })
@@ -62,6 +64,8 @@ export function CreateFitDialog({
       role: "",
       company: "",
       jobDescription: "",
+      location: "",
+      applicationUrl: "",
       resumeId: ""
     }
   })
@@ -91,6 +95,8 @@ export function CreateFitDialog({
       role: "",
       company: "",
       jobDescription: "",
+      location: "",
+      applicationUrl: "",
       resumeId: ""
     })
 
@@ -141,26 +147,54 @@ export function CreateFitDialog({
             />
             <FormField 
               control={form.control}
-              name="resumeId"
+              name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Resume</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a resume" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {resumes.map(resume => (
-                        <SelectItem key={resume.id} value={resume.id}>{resume.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Location</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isSubmitting} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className="w-full flex gap-x-4">
+              <FormField 
+                control={form.control}
+                name="resumeId"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Resume</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a resume" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {resumes.map(resume => (
+                          <SelectItem key={resume.id} value={resume.id}>{resume.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="applicationUrl"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Application Url</FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isSubmitting} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField 
               control={form.control}
               name="jobDescription"

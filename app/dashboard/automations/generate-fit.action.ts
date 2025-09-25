@@ -114,6 +114,8 @@ export const generateFit = async (values: GenerateFitSchema) => {
       resumeId: values.resumeId,
       role: values.role,
       company: values.company,
+      location: values.location,
+      applicationUrl: values.applicationUrl,
       jobDescription: values.jobDescription,
       fitScore: object.score,
       goodPoints: object.goodPoints,
@@ -131,6 +133,8 @@ export const generateFit = async (values: GenerateFitSchema) => {
       id: values.resumeId,
       name: resumeName
     },
+    location: values.location,
+    applicationUrl: values.applicationUrl,
     jobDescription: values.jobDescription,
     score: object.score,
     goodPoints: object.goodPoints,

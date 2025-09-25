@@ -81,6 +81,8 @@ export const fit = pgTable("fit", {
   resumeId: uuid("resume_id").notNull().references(() => resume.id, { onDelete: "cascade" }),
   role: text("role").notNull(),
   company: text("company").notNull(),
+  location: text("location").notNull().default(""),
+  applicationUrl: text("application_url"),
   jobDescription: text("job_description").notNull(),
   fitScore: integer("fit_score").notNull(),
   goodPoints: text("good_points").array().notNull(),
