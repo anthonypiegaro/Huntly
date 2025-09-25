@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 
 import { db } from "@/db/db"
 import { fit, resume } from "@/db/schema"
@@ -40,6 +40,7 @@ export const getFitData = async (): Promise<Fit[]> => {
     .from(fit)
     .innerJoin(resume, eq(fit.resumeId, resume.id))
     .where(eq(fit.userId, userId))
+    .orderBy(desc(fit.createdAt))
 
   const fitsCleaned = fits.map(f => ({
       id: f.id,

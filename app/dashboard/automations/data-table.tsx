@@ -102,6 +102,12 @@ export function DataTable<TValue>({
       },
       openScoreDetails: (details: ScoreDetails) => {
         setScoreDetailsDialogDetails(details)
+      },
+      updateSingleTrackedValue: (id: string) => {
+        setData(prev => prev.map(fit => ({
+          ...fit,
+          tracked: id === fit.id ? true : fit.tracked
+        })))
       }
     }
   })

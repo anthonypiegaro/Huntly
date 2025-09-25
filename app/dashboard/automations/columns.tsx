@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -12,7 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
 import { ScoreDetails } from "./data-table"
+import { createSingleApp } from "./create-single-app.action"
 
 export type Fit = {
   id: string
@@ -112,6 +115,19 @@ export const columns: ColumnDef<Fit>[] = [
             poorPoints: fit.poorPoints
           })
       }
+
+      const handleTrackApplication = () => {
+        (table.options.meta as { updateSingleTrackedValue: (id: string ) => void })
+          ?.updateSingleTrackedValue(row.original.id)
+        
+        const data = createSingleApp(row.original)
+
+        toast.promise(data, {
+          loading: "...Loading",
+          success: data => `Role with ${row.original.company} is now being tracked in Applications`,
+          error: error => error.message
+        })
+      }
  
       return (
         <DropdownMenu>
@@ -124,7 +140,7 @@ export const columns: ColumnDef<Fit>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={handleViewScoreDetailsClick}>View Score Details</DropdownMenuItem>
             <DropdownMenuItem onClick={handleViewJobDescriptionClick}>View Job Description</DropdownMenuItem>
-            <DropdownMenuItem>Track App</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleTrackApplication}>Track App</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive">Delete Fit</DropdownMenuItem>
           </DropdownMenuContent>

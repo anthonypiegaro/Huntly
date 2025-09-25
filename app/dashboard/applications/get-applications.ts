@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 
 import { db } from "@/db/db"
 import { application, resume } from "@/db/schema"
@@ -41,6 +41,7 @@ export const getApplications = async () => {
     .from(application)
     .leftJoin(resume, eq(application.resumeId, resume.id))
     .where(eq(application.userId, userId))
+    .orderBy(desc(application.dateAdded))
 
   const applicationsCleaned: Application[] = applications.map(app => {
     let resume = null
