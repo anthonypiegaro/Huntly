@@ -1,6 +1,6 @@
 "use client"
 
-import { ColumnDef, FilterFn } from "@tanstack/react-table"
+import { ColumnDef, FilterFn, FilterFnOption } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { toast } from "sonner"
 
@@ -140,6 +140,7 @@ export const columns: ColumnDef<Fit>[] = [
         <ArrowUpDown />
       </Button>
     ),
+    filterFn: "numericComparator" as FilterFnOption<Fit>,
     meta: {
       stringName: "Score"
     }

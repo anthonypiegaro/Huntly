@@ -40,6 +40,8 @@ import { ScoreDetailsDialog } from "./score-details-dialog"
 import { BulkActionsDropdown } from "./bulk-actions-dropdown"
 import { DataTableTrackedFilter } from "./data-table-tracked-filter"
 import { DeleteSingleRowDialog } from "./delete-single-row-dialog"
+import { DataTableScoreFilter } from "./data-table-score-filter"
+import { filterFns } from "./custom-filter-fns"
 
 export type ScoreDetails = { 
   score: number 
@@ -50,6 +52,13 @@ export type ScoreDetails = {
 export type SingleFitDeleteDetails = {
   id: string
   name: string
+}
+
+export type NumericComparator = ">" | "<" | "=" | "none"
+
+export type NumberFilter = {
+  comparator: NumericComparator
+  value: number
 }
 
 function useSkipper() {
@@ -85,6 +94,10 @@ export function DataTable<TValue>({
       id: "tracked",
       value: [true, false],
     },
+    {
+      id: "score",
+      value: { comparator: 'none', value: 1 }
+    }
   ])
 
   const [JobDescriptionDialogJobDescription, setJobDescriptionDialogJobDescription] = useState<string | null>(null)
@@ -93,7 +106,7 @@ export function DataTable<TValue>({
 
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
 
-  const table = useReactTable({
+  const table = useReactTable<Fit>({
     columns,
     data,
     getRowId: row => row.id, 
@@ -106,6 +119,7 @@ export function DataTable<TValue>({
     onRowSelectionChange: setRowSelection,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    filterFns,
     globalFilterFn: "includesString",
     state: {
       sorting,
@@ -194,6 +208,7 @@ export function DataTable<TValue>({
           />
           <DataTableViewOptions table={table} />
           <DataTableTrackedFilter table={table} />
+          <DataTableScoreFilter table={table} />
           <CreateFitDialog resumes={resumes} onSuccess={handleFitCreationSuccess} />
           <BulkActionsDropdown
             table={table}
