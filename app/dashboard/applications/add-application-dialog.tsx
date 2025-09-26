@@ -32,7 +32,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { wait } from "@/lib/utils"
+
 import { Resume } from "./page"
 import { Application } from "./columns"
 import { createApplication } from "./create-application.action"
@@ -43,7 +43,7 @@ const addApplicationSchema = z.object({
   location: z.string(),
   jobDescription: z.string().max(10000, "Job description can be no longer than 10,000 characters"),
   applicationUrl: z.string().max(10000, "Application url can be no longer than 10,000 characters"),
-  resumeId: z.string(),
+  resumeId: z.string().nullable(),
 })
 
 export type AddApplicationSchema = z.infer<typeof addApplicationSchema>
@@ -66,7 +66,7 @@ export function AddApplicationDialog({
       location: "",
       jobDescription: "",
       applicationUrl: "",
-      resumeId: ""
+      resumeId: null
     }
   })
 
@@ -80,7 +80,7 @@ export function AddApplicationDialog({
         })
         onSuccess({
           id: id,
-          resume: { id: values.resumeId, name: resumes.find(resume => resume.id === values.resumeId)?.name ?? "NA" },
+          resume: values.resumeId !== null ? { id: values.resumeId, name: resumes.find(resume => resume.id === values.resumeId)?.name ?? "NA" } : null,
           role: values.role,
           company: values.company,
           location: values.location,
@@ -111,7 +111,7 @@ export function AddApplicationDialog({
       location: "",
       jobDescription: "",
       applicationUrl: "",
-      resumeId: ""
+      resumeId: null
     })
     setOpen(open)
   }
@@ -186,7 +186,7 @@ export function AddApplicationDialog({
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Resume</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
+                    <Select onValueChange={field.onChange} value={field.value === null ? "" : field.value} disabled={isSubmitting}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a resume" />

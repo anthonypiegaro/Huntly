@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { 
@@ -58,14 +58,22 @@ export const columns: ColumnDef<Application>[] = [
   {
     accessorKey: "resume.name",
     header: "Resume",
-    cell: ({ row }) => <div>{row.original.resume?.name ?? "NA"}</div>,
+    cell: ({ row }) => <div className="w-full truncate">{row.original.resume?.name ?? "NA"}</div>,
     meta: {
       stringName: "Resume"
     }
   },
   {
     accessorKey: "dateAdded",
-    header: "Added",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Added
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateAdded") === null ? "NA" : dateFormatter.format(row.getValue("dateAdded"))}</div>,
     meta: {
       stringName: "Added"
@@ -73,7 +81,15 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "dateApplied",
-    header: "Applied",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Applied
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateApplied") === null ? "NA" : dateFormatter.format(row.getValue("dateApplied"))}</div>,
     meta: {
       stringName: "Applied"
@@ -81,7 +97,15 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "dateResponded",
-    header: "Responded",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Responded
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateResponded") === null ? "NA" : dateFormatter.format(row.getValue("dateResponded"))}</div>,
     meta: {
       stringName: "Responded"
@@ -89,7 +113,15 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "dateInterviewed",
-    header: "Interviewed",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Interviewed
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateInterviewed") === null ? "NA" : dateFormatter.format(row.getValue("dateInterviewed"))}</div>,
     meta: {
       stringName: "Interviewed"
@@ -97,7 +129,15 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "dateAccepted",
-    header: "Accepted",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Accepted
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateAccepted") === null ? "NA" : dateFormatter.format(row.getValue("dateAccepted"))}</div>,
     meta: {
       stringName: "Accepted"
@@ -105,7 +145,15 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "dateClosed",
-    header: "Closed",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Closed
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("dateClosed") === null ? "NA" : dateFormatter.format(row.getValue("dateClosed"))}</div>,
     meta: {
       stringName: "Closed"

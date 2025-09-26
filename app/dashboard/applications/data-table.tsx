@@ -10,6 +10,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
   VisibilityState
 } from "@tanstack/react-table"
@@ -45,6 +47,7 @@ export function DataTable<TValue>({
   const [data, setData] = useState(initData)
   const [stageFilter, setStageFilter] = useState<Stage>("all")
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const dataCleaned = useMemo(() => {
     return data.filter(row => {
@@ -93,10 +96,13 @@ export function DataTable<TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onSortingChange: setSorting,
     globalFilterFn: "includesString",
     state: {
-      columnVisibility
+      columnVisibility,
+      sorting
     }
   })
 
@@ -154,7 +160,7 @@ export function DataTable<TValue>({
                   className="border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)] hover:bg-[oklch(0.255_0_0)]/20 dark:hover:bg-[oklch(0.450_0_0)]/30 font-medium dark:font-normal"
                 >
                   {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id} className="max-w-20 truncate">
+                    <TableCell key={cell.id} className="max-w-25 truncate">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

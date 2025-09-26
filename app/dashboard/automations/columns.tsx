@@ -92,7 +92,15 @@ export const columns: ColumnDef<Fit>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: ({ column }) => (
+      <Button 
+        variant="ghost" 
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Created At
+        <ArrowUpDown />
+      </Button>
+    ),
     cell: ({ row }) => <div>{dateFormatter.format(row.getValue("createdAt"))}</div>,
     meta: {
       stringName: "Created At"
