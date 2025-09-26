@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { ScoreDetails } from "./data-table"
+import { ScoreDetails, SingleFitDeleteDetails } from "./data-table"
 import { createSingleApp } from "./create-single-app.action"
 
 export type Fit = {
@@ -160,6 +160,14 @@ export const columns: ColumnDef<Fit>[] = [
           error: error => error.message
         })
       }
+
+      const handleDeleteClick = () => {
+        (table.options.meta as { openDeleteSingleFitDialog: (details: SingleFitDeleteDetails) => void })
+          ?.openDeleteSingleFitDialog({
+            id: row.original.id,
+            name: row.original.company
+          })
+      }
  
       return (
         <DropdownMenu>
@@ -174,7 +182,7 @@ export const columns: ColumnDef<Fit>[] = [
             <DropdownMenuItem onClick={handleViewJobDescriptionClick}>View Job Description</DropdownMenuItem>
             <DropdownMenuItem onClick={handleTrackApplication}>Track App</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">Delete Fit</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive" onClick={handleDeleteClick}>Delete Fit</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

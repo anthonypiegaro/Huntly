@@ -39,11 +39,17 @@ import { JobDescriptionDialog } from "./job-description-dialog"
 import { ScoreDetailsDialog } from "./score-details-dialog"
 import { BulkActionsDropdown } from "./bulk-actions-dropdown"
 import { DataTableTrackedFilter } from "./data-table-tracked-filter"
+import { DeleteSingleRowDialog } from "./delete-single-row-dialog"
 
 export type ScoreDetails = { 
   score: number 
   goodPoints: string[]
   poorPoints: string[]
+}
+
+export type SingleFitDeleteDetails = {
+  id: string
+  name: string
 }
 
 function useSkipper() {
@@ -83,6 +89,7 @@ export function DataTable<TValue>({
 
   const [JobDescriptionDialogJobDescription, setJobDescriptionDialogJobDescription] = useState<string | null>(null)
   const [scoreDetailsDialogDetails, setScoreDetailsDialogDetails] = useState<ScoreDetails | null>(null)
+  const [deleteSingleRowDialogDetails, setDeleteSingleRowDialogDetails] = useState<SingleFitDeleteDetails | null>(null)
 
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
 
@@ -118,6 +125,9 @@ export function DataTable<TValue>({
           ...fit,
           tracked: id === fit.id ? true : fit.tracked
         })))
+      },
+      openDeleteSingleFitDialog: (details: SingleFitDeleteDetails) => {
+        setDeleteSingleRowDialogDetails(details)
       }
     }
   })
@@ -145,6 +155,16 @@ export function DataTable<TValue>({
     })))
   }
 
+  const handleDeleteSingleRowDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setDeleteSingleRowDialogDetails(null)
+    }
+  }
+
+  const handleDeleteSingleRow = (id: string) => {
+    setData(prev => prev.filter(fit => fit.id !== id))
+  }
+
   return (
     <>
       <ScoreDetailsDialog 
@@ -156,6 +176,13 @@ export function DataTable<TValue>({
         open={JobDescriptionDialogJobDescription ? true : false}
         onOpenChange={handleJobDescriptionDialogOpenChange}
         jobDescription={JobDescriptionDialogJobDescription}
+      />
+      <DeleteSingleRowDialog
+        open={deleteSingleRowDialogDetails !== null}
+        onOpenChange={handleDeleteSingleRowDialogOpenChange}
+        deleteId={deleteSingleRowDialogDetails?.id ?? ""}
+        deleteName={deleteSingleRowDialogDetails?.name ?? ""}
+        onDelete={handleDeleteSingleRow}
       />
       <div className="w-full h-full my-10">
         <div className="mb-4 flex items-end gap-4 flex-wrap">

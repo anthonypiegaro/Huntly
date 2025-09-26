@@ -124,7 +124,10 @@ export function CreateFitDialog({
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel className="gap-1">
+                    Role
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} disabled={isSubmitting} />
                   </FormControl>
@@ -137,7 +140,10 @@ export function CreateFitDialog({
               name="company"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Company</FormLabel>
+                  <FormLabel className="gap-1">
+                    Company
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} disabled={isSubmitting} />
                   </FormControl>
@@ -164,7 +170,10 @@ export function CreateFitDialog({
                 name="resumeId"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Resume</FormLabel>
+                    <FormLabel className="gap-1">
+                      Resume
+                      <span className="text-destructive">*</span>
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
                       <FormControl>
                         <SelectTrigger className="w-full">
@@ -200,7 +209,10 @@ export function CreateFitDialog({
               name="jobDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Description</FormLabel>
+                  <FormLabel className="gap-1">
+                    Job Description
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Textarea 
                       className="w-full max-w-full min-w-0 h-50 resize-none whitespace-pre-wrap break-words"
