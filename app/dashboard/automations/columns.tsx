@@ -4,6 +4,7 @@ import { ColumnDef, FilterFn } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { toast } from "sonner"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -13,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 
 import { ScoreDetails, SingleFitDeleteDetails } from "./data-table"
 import { createSingleApp } from "./create-single-app.action"
@@ -109,6 +111,19 @@ export const columns: ColumnDef<Fit>[] = [
   {
     accessorKey: "tracked",
     header: "Tracked",
+    cell: ({ row }) => {
+      const tracked = row.getValue("tracked")
+      return (
+        <Badge 
+          className={cn(
+            "px-2",
+            tracked ? "bg-green-300/20 border-green-300/80 text-primary/90" : "bg-red-300/20 border-red-300/80 text-primary/90"
+          )}
+        >
+          {tracked ? "Yes" : "No"}
+        </Badge>
+      )
+    },
     filterFn: booleanIncludes,
     meta: {
       stringName: "Tracked"
