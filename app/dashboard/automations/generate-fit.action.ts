@@ -3,6 +3,8 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { openai } from "@ai-sdk/openai"
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
 import { generateObject } from "ai"
 import { and, eq } from "drizzle-orm"
 import { z } from "zod"
@@ -12,6 +14,13 @@ import { fit, resume } from "@/db/schema"
 import { auth } from "@/lib/auth"
 
 import { GenerateFitSchema } from "./create-fit-dialog"
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(100, "1 d"),
+  analytics: true,
+  prefix: "huntly-fitgeneration"
+})
 
 const fitSchema = z.object({
   score: z.number()
@@ -66,6 +75,12 @@ export const generateFit = async (values: GenerateFitSchema) => {
   }
 
   const userId = session.user.id
+
+  const { success } = await ratelimit.limit(userId)
+
+  if (!success) {
+    throw new Error("Fit Generation Rate Limit Reached.")
+  }
 
   const resumeRes = await db
     .select({ content: resume.resumeContent, name: resume.name })
