@@ -19,12 +19,14 @@ export function BulkActionsDropdown({
   table,
   buttonClassName,
   disabled,
-  onBulkTrackSuccess
+  onBulkTrackSuccess,
+  onOpenBulkDeleteDialog
 }: {
   table: Table<Fit>
   buttonClassName?: string
   disabled: boolean
   onBulkTrackSuccess: (ids: string[]) => void
+  onOpenBulkDeleteDialog: () => void
 }) {
 
   const bulkTrackApps = async () => {
@@ -63,7 +65,7 @@ export function BulkActionsDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onClick={bulkTrackApps}>Track Apps</DropdownMenuItem>
-        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+        <DropdownMenuItem variant="destructive" onClick={onOpenBulkDeleteDialog}>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

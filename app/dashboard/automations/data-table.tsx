@@ -42,6 +42,7 @@ import { DataTableTrackedFilter } from "./data-table-tracked-filter"
 import { DeleteSingleRowDialog } from "./delete-single-row-dialog"
 import { DataTableScoreFilter } from "./data-table-score-filter"
 import { filterFns } from "./custom-filter-fns"
+import { BulkDeleteDialog } from "./bulk-delete-dialog"
 
 export type ScoreDetails = { 
   score: number 
@@ -103,6 +104,7 @@ export function DataTable<TValue>({
   const [JobDescriptionDialogJobDescription, setJobDescriptionDialogJobDescription] = useState<string | null>(null)
   const [scoreDetailsDialogDetails, setScoreDetailsDialogDetails] = useState<ScoreDetails | null>(null)
   const [deleteSingleRowDialogDetails, setDeleteSingleRowDialogDetails] = useState<SingleFitDeleteDetails | null>(null)
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false)
 
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
 
@@ -179,6 +181,10 @@ export function DataTable<TValue>({
     setData(prev => prev.filter(fit => fit.id !== id))
   }
 
+  const handleBulkDelete = (ids: string[]) => {
+    setData(prev => prev.filter(fit => !ids.includes(fit.id)))
+  }
+
   return (
     <>
       <ScoreDetailsDialog 
@@ -197,6 +203,12 @@ export function DataTable<TValue>({
         deleteId={deleteSingleRowDialogDetails?.id ?? ""}
         deleteName={deleteSingleRowDialogDetails?.name ?? ""}
         onDelete={handleDeleteSingleRow}
+      />
+      <BulkDeleteDialog 
+        open={bulkDeleteDialogOpen}
+        onOpenChange={setBulkDeleteDialogOpen}
+        ids={table.getSelectedRowModel().rows.map(row => row.id)}
+        onSuccess={handleBulkDelete}
       />
       <div className="w-full h-full my-10">
         <div className="mb-4 flex items-end gap-4 flex-wrap">
@@ -218,6 +230,7 @@ export function DataTable<TValue>({
               table.getSelectedRowModel().rows.length === 0 && "!opacity-0 !pointer-events-none"
             )} 
             disabled={table.getSelectedRowModel().rows.length === 0}
+            onOpenBulkDeleteDialog={() => setBulkDeleteDialogOpen(true)}
           />
         </div>
         <div className="mb-4 rounded-md border-2 border-[oklch(0.225_0_0)] dark:border-[oklch(0.350_0_0)]">
