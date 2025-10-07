@@ -34,6 +34,12 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableViewOptions } from "./data-table-view-options"
 import { AddApplicationDialog } from "./add-application-dialog"
 import { Resume } from "./page"
+import { SingleDeleteDialog } from "./single-delete-dialog"
+
+export type SingleDeleteDialogDetails = {
+  id: string
+  name: string
+}
 
 export function DataTable<TValue>({
   columns,
@@ -48,6 +54,8 @@ export function DataTable<TValue>({
   const [stageFilter, setStageFilter] = useState<Stage>("all")
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const [singleDeleteDialogDetails, setSingleDeleteDialogDetails] = useState<SingleDeleteDialogDetails | null>(null)
 
   const dataCleaned = useMemo(() => {
     return data.filter(row => {
@@ -103,6 +111,11 @@ export function DataTable<TValue>({
     state: {
       columnVisibility,
       sorting
+    },
+    meta: {
+      openSingleDeleteDialog: (details: SingleDeleteDialogDetails) => {
+        setSingleDeleteDialogDetails(details)
+      }
     }
   })
 
@@ -114,8 +127,25 @@ export function DataTable<TValue>({
     setData(prev => [app, ...prev])
   }
 
+  const handleSingleDeleteDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setSingleDeleteDialogDetails(null)
+    }
+  }
+
+  const handleSingleDeleteSuccess = (id: string) => {
+    setData(prev => prev.filter(app => app.id !== id))
+  }
+
   return (
     <>
+      <SingleDeleteDialog 
+        id={singleDeleteDialogDetails?.id ?? ""}
+        name={singleDeleteDialogDetails?.name ?? ""}
+        open={singleDeleteDialogDetails !== null}
+        onOpenChange={handleSingleDeleteDialogOpenChange}
+        onSuccess={handleSingleDeleteSuccess}
+      />
       <StageFilter
         selectedStage={stageFilter}
         onChangeStageFilter={handleChangeStageFilter}

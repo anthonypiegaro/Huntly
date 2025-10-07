@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { SingleDeleteDialogDetails } from "./data-table"
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "2-digit",
@@ -161,7 +162,17 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const app = row.original
+
+      const handleDeleteClick = () => {
+        (table.options.meta as { openSingleDeleteDialog: (details: SingleDeleteDialogDetails) => void })
+          ?.openSingleDeleteDialog({
+            id: app.id,
+            name: app.company
+          })
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -172,7 +183,7 @@ export const columns: ColumnDef<Application>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>View Details</DropdownMenuItem>
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDeleteClick} variant="destructive">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
