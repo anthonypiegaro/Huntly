@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Huntly - Making the Job Hunt Less Painful",
   description: "Huntly helps you organize and keep track of your job applications. Huntly also automates the cover letter process, tailoring your resume to each job application.",
+  other: {
+    "apple-mobile-web-app-title": "Huntly",
+  },
 }
 
 export default function RootLayout({
